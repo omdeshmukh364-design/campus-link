@@ -9,54 +9,75 @@
 <body>
   <!-- Header -->
   <header>
-    <h1>Campus Link</h1>
-    <h2>Pimpri Chinchwad University</h2>
+    <div class="logo">🌐 PCU Campus Link</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Communities</a>
+      <a href="#">Notifications</a>
+      <a href="#">Student Life</a>
+    </nav>
   </header>
 
+  <!-- Hero Banner -->
+  <section class="hero">
+    <h1>Welcome to Campus Link</h1>
+    <p>The digital hub for Pimpri Chinchwad University students. Connect. Collaborate. Grow.</p>
+    <button class="btn-accent" onclick="showSignup()">Get Started</button>
+  </section>
+
   <!-- Login Section -->
-  <section id="login-section">
-    <h3>Login</h3>
+  <section id="login-section" class="card">
+    <h2>Login</h2>
     <input type="email" id="email" placeholder="College Email">
     <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+    <button class="btn-primary" onclick="login()">Login</button>
     <p>Don’t have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
   </section>
 
   <!-- Signup Section -->
-  <section id="signup-section" class="hidden">
-    <h3>Sign Up</h3>
+  <section id="signup-section" class="card hidden">
+    <h2>Create Account</h2>
     <input type="text" id="name" placeholder="Full Name">
     <input type="email" id="signup-email" placeholder="College Email">
     <input type="password" id="signup-password" placeholder="Password">
-    <button onclick="signup()">Register</button>
+    <button class="btn-primary" onclick="signup()">Register</button>
     <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
   </section>
 
   <!-- Dashboard Section -->
   <section id="dashboard" class="hidden">
-    <h3>Welcome <span id="studentName"></span></h3>
+    <div class="card">
+      <h2>Hello, <span id="studentName"></span> 👋</h2>
+      <p>Welcome back to your community hub.</p>
+    </div>
 
     <!-- Communities -->
-    <h4>Available Communities</h4>
-    <ul id="community-list"></ul>
+    <div class="card">
+      <h3>Available Communities</h3>
+      <ul id="community-list"></ul>
+    </div>
 
-    <!-- Notifications (PCU-like Student Corner) -->
-    <section id="notifications-section">
-      <h4>PCU Notifications</h4>
+    <!-- Notifications -->
+    <div class="card">
+      <h3>Latest Notifications</h3>
       <div id="notifications-list"></div>
-    </section>
+    </div>
 
-    <!-- Student Life Section -->
-    <section id="student-life-section">
-      <h4>Student Life & Facilities</h4>
+    <!-- Student Life -->
+    <div class="card">
+      <h3>Student Life at PCU</h3>
       <ul>
         <li>🏫 Hostel Information</li>
         <li>🚌 Transport Schedule</li>
         <li>⚽ Sports Facilities</li>
         <li>🎭 Cultural Events</li>
       </ul>
-    </section>
+    </div>
   </section>
+
+  <footer>
+    © 2025 Pimpri Chinchwad University | Designed with ❤️ for Students
+  </footer>
 
   <script src="script.js"></script>
 </body>
