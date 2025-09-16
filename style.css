@@ -1,66 +1,148 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+/* Reset */
+body, h1, h2, h3, p, ul {
   margin: 0;
   padding: 0;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
+body {
+  background: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
 header {
   background: #003366;
   color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+header nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+header nav a:hover {
+  color: #ef5350;
+}
+
+/* Hero Banner */
+.hero {
+  background: linear-gradient(120deg, #003366, #ef5350);
+  color: white;
   text-align: center;
-  padding: 20px;
+  padding: 80px 20px;
 }
 
-section {
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.btn-accent {
+  background: #ef5350;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-accent:hover {
+  background: #d32f2f;
+}
+
+/* Cards */
+.card {
   background: white;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 30px auto;
+  padding: 25px;
   width: 90%;
-  max-width: 500px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
 }
 
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h2, .card h3 {
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+/* Inputs & Buttons */
 input, button {
   display: block;
   width: 100%;
   margin: 10px 0;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-button {
+.btn-primary {
   background: #003366;
   color: white;
   border: none;
+  font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-button:hover {
-  background: #0055aa;
+.btn-primary:hover {
+  background: #ef5350;
+}
+
+/* Lists */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background: #eef2f7;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+ul li:hover {
+  background: #e57373;
+  color: white;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #003366;
+  color: white;
+  margin-top: 40px;
 }
 
 .hidden {
   display: none;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  background: #e3e3e3;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-#notifications-list p {
-  background: #eef;
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 4px;
-}
-
-
