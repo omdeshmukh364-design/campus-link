@@ -1,19 +1,15 @@
-// Dummy student data
 let student = null;
 
-// Show signup form
 function showSignup() {
   document.getElementById("login-section").classList.add("hidden");
   document.getElementById("signup-section").classList.remove("hidden");
 }
 
-// Show login form
 function showLogin() {
   document.getElementById("signup-section").classList.add("hidden");
   document.getElementById("login-section").classList.remove("hidden");
 }
 
-// Signup function (stores data in localStorage)
 function signup() {
   const name = document.getElementById("name").value;
   const email = document.getElementById("signup-email").value;
@@ -24,11 +20,9 @@ function signup() {
   showLogin();
 }
 
-// Login function
 function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-
   const storedStudent = JSON.parse(localStorage.getItem("student"));
 
   if (storedStudent && storedStudent.email === email && storedStudent.password === password) {
@@ -43,7 +37,7 @@ function login() {
   }
 }
 
-// Load communities (dummy data)
+// Dummy Communities
 function loadCommunities() {
   const communities = [
     { id: 1, name: "AI & ML Club" },
@@ -57,22 +51,21 @@ function loadCommunities() {
 
   communities.forEach(c => {
     const li = document.createElement("li");
-    li.innerHTML = `${c.name} <button onclick="joinCommunity('${c.name}')">Join</button>`;
+    li.innerHTML = `${c.name} <button class="btn-primary" onclick="joinCommunity('${c.name}')">Join</button>`;
     list.appendChild(li);
   });
 }
 
-// Join community
 function joinCommunity(name) {
-  alert(`You have joined ${name}!`);
+  alert(`🎉 You have joined ${name}!`);
 }
 
-// Load notifications (dummy API simulation)
+// Dummy Notifications
 function loadNotifications() {
   const notifications = [
-    { date: "2025-09-14", title: "Mid-Semester Exams announced" },
-    { date: "2025-09-10", title: "Cultural Fest registrations open" },
-    { date: "2025-09-05", title: "Library extended hours for exam prep" }
+    { date: "2025-09-14", title: "📢 Mid-Semester Exams announced" },
+    { date: "2025-09-10", title: "🎭 Cultural Fest registrations open" },
+    { date: "2025-09-05", title: "📚 Library extended hours for exam prep" }
   ];
 
   const notifList = document.getElementById("notifications-list");
