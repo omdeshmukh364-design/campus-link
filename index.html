@@ -13,22 +13,24 @@
     <nav>
       <a href="#">Home</a>
       <a href="#">Communities</a>
-      <a href="#">Notifications</a>
-      <a href="#">Student Life</a>
     </nav>
   </header>
 
   <!-- Hero Banner -->
   <section class="hero">
     <h1>Welcome to Campus Link</h1>
-    <p>The digital hub for Pimpri Chinchwad University students. Connect. Collaborate. Grow.</p>
-    <button class="btn-accent" onclick="showSignup()">Get Started</button>
+    <p>The digital hub for Pimpri Chinchwad University. Connect. Collaborate. Grow.</p>
+    <button class="btn-accent" onclick="showLogin()">Get Started</button>
   </section>
 
   <!-- Login Section -->
-  <section id="login-section" class="card">
+  <section id="login-section" class="card hidden">
     <h2>Login</h2>
-    <input type="email" id="email" placeholder="College Email">
+    <select id="role">
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+    <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
     <button class="btn-primary" onclick="login()">Login</button>
     <p>Don’t have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
@@ -37,8 +39,12 @@
   <!-- Signup Section -->
   <section id="signup-section" class="card hidden">
     <h2>Create Account</h2>
+    <select id="signup-role">
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
     <input type="text" id="name" placeholder="Full Name">
-    <input type="email" id="signup-email" placeholder="College Email">
+    <input type="email" id="signup-email" placeholder="Email">
     <input type="password" id="signup-password" placeholder="Password">
     <button class="btn-primary" onclick="signup()">Register</button>
     <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
@@ -51,35 +57,24 @@
       <p>Welcome back to your community hub.</p>
     </div>
 
+    <!-- Insert Community (only teachers see this) -->
+    <div class="card hidden" id="addCommunityCard">
+      <h3>Create a New Community</h3>
+      <input type="text" id="newCommunity" placeholder="Community Name">
+      <button class="btn-primary" onclick="addCommunity()">Add</button>
+    </div>
+
     <!-- Communities -->
     <div class="card">
       <h3>Available Communities</h3>
       <ul id="community-list"></ul>
     </div>
-
-    <!-- Notifications -->
-    <div class="card">
-      <h3>Latest Notifications</h3>
-      <div id="notifications-list"></div>
-    </div>
-
-    <!-- Student Life -->
-    <div class="card">
-      <h3>Student Life at PCU</h3>
-      <ul>
-        <li>🏫 Hostel Information</li>
-        <li>🚌 Transport Schedule</li>
-        <li>⚽ Sports Facilities</li>
-        <li>🎭 Cultural Events</li>
-      </ul>
-    </div>
   </section>
 
   <footer>
-    © 2025 Pimpri Chinchwad University | Designed with ❤️ for Students
+    © 2025 Pimpri Chinchwad University | Designed with ❤️ for Students & Teachers
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-
