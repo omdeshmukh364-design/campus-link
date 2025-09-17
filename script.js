@@ -1,4 +1,10 @@
-let student = null;
+let user = null;
+let communities = [
+  { id: 1, name: "AI & ML Club", founder: "Teacher" },
+  { id: 2, name: "Cultural Committee", founder: "Teacher" },
+  { id: 3, name: "Sports Club", founder: "Teacher" },
+  { id: 4, name: "Entrepreneurship Cell", founder: "Teacher" }
+];
 
 function showSignup() {
   document.getElementById("login-section").classList.add("hidden");
@@ -11,47 +17,46 @@ function showLogin() {
 }
 
 function signup() {
+  const role = document.getElementById("signup-role").value;
   const name = document.getElementById("name").value;
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
 
-  localStorage.setItem("student", JSON.stringify({ name, email, password }));
+  localStorage.setItem("user", JSON.stringify({ role, name, email, password }));
   alert("Signup successful! Please login.");
   showLogin();
 }
 
 function login() {
+  const role = document.getElementById("role").value;
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const storedStudent = JSON.parse(localStorage.getItem("student"));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  if (storedStudent && storedStudent.email === email && storedStudent.password === password) {
-    student = storedStudent;
-    document.getElementById("studentName").innerText = student.name;
+  if (storedUser && storedUser.email === email && storedUser.password === password && storedUser.role === role) {
+    user = storedUser;
+    document.getElementById("studentName").innerText = `${user.name} (${user.role})`;
     document.getElementById("login-section").classList.add("hidden");
     document.getElementById("dashboard").classList.remove("hidden");
+
+    // Show "Add Community" only if Teacher
+    if (user.role === "teacher") {
+      document.getElementById("addCommunityCard").classList.remove("hidden");
+    }
+
     loadCommunities();
-    loadNotifications();
   } else {
     alert("Invalid credentials!");
   }
 }
 
-// Dummy Communities
 function loadCommunities() {
-  const communities = [
-    { id: 1, name: "AI & ML Club" },
-    { id: 2, name: "Cultural Committee" },
-    { id: 3, name: "Sports Club" },
-    { id: 4, name: "Entrepreneurship Cell" }
-  ];
-
   const list = document.getElementById("community-list");
   list.innerHTML = "";
-
   communities.forEach(c => {
     const li = document.createElement("li");
-    li.innerHTML = `${c.name} <button class="btn-primary" onclick="joinCommunity('${c.name}')">Join</button>`;
+    li.innerHTML = `${c.name} <span style="font-size:12px; color:#666;">(Founder: ${c.founder})</span> 
+      <button class="btn-primary" onclick="joinCommunity('${c.name}')">Join</button>`;
     list.appendChild(li);
   });
 }
@@ -60,20 +65,20 @@ function joinCommunity(name) {
   alert(`🎉 You have joined ${name}!`);
 }
 
-// Dummy Notifications
-function loadNotifications() {
-  const notifications = [
-    { date: "2025-09-14", title: "📢 Mid-Semester Exams announced" },
-    { date: "2025-09-10", title: "🎭 Cultural Fest registrations open" },
-    { date: "2025-09-05", title: "📚 Library extended hours for exam prep" }
-  ];
+function addCommunity() {
+  if (user.role !== "teacher") {
+    alert("❌ Only teachers can create communities.");
+    return;
+  }
 
-  const notifList = document.getElementById("notifications-list");
-  notifList.innerHTML = "";
-
-  notifications.forEach(n => {
-    const p = document.createElement("p");
-    p.innerText = `${n.date} - ${n.title}`;
-    notifList.appendChild(p);
-  });
+  const newCommunity = document.getElementById("newCommunity").value;
+  if (newCommunity.trim() !== "") {
+    const id = communities.length + 1;
+    communities.push({ id, name: newCommunity, founder: user.name });
+    document.getElementById("newCommunity").value = "";
+    loadCommunities();
+    alert(`✅ Community '${newCommunity}' created by ${user.name}!`);
+  } else {
+    alert("Please enter a community name.");
+  }
 }
