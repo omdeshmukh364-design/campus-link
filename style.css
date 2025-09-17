@@ -19,6 +19,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* Allow nav to wrap on small screens */
 }
 
 header .logo {
@@ -26,9 +27,15 @@ header .logo {
   font-weight: bold;
 }
 
+header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
 header nav a {
   color: white;
-  margin-left: 20px;
   text-decoration: none;
   font-weight: 500;
   transition: 0.3s;
@@ -127,6 +134,9 @@ ul li {
   padding: 10px;
   border-radius: 6px;
   transition: 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 ul li:hover {
@@ -145,4 +155,55 @@ footer {
 
 .hidden {
   display: none;
+}
+
+/* ---------------- RESPONSIVE DESIGN ---------------- */
+
+/* Tablets & smaller laptops */
+@media (max-width: 992px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+  .hero p {
+    font-size: 16px;
+  }
+  header nav {
+    justify-content: center;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header .logo {
+    margin-bottom: 10px;
+  }
+
+  .hero {
+    padding: 60px 15px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .card {
+    width: 95%;
+    padding: 20px;
+  }
+
+  input, button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  ul li {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
 }
