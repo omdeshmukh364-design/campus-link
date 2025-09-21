@@ -8,14 +8,15 @@
 </head>
 <body>
   <!-- Header -->
-  <header>
-    <div class="logo">🌐 PCU Campus Link</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Communities</a>
-      <a href="#" id="logoutBtn" class="hidden" onclick="logout()">Logout</a>
-    </nav>
-  </header>
+<header>
+  <div class="logo">🌐 PCU Campus Link</div>
+  <nav>
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('communities')">Communities</a>
+    <a href="#" id="logoutBtn" class="hidden" onclick="logout()">Logout</a>
+  </nav>
+</header>
+
 
   <!-- Hero Banner -->
   <section class="hero">
@@ -79,3 +80,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
