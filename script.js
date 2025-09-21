@@ -1,10 +1,5 @@
 let user = null;
-let communities = [
-  { id: 1, name: "AI & ML Club", founder: "Teacher" },
-  { id: 2, name: "Cultural Committee", founder: "Teacher" },
-  { id: 3, name: "Sports Club", founder: "Teacher" },
-  { id: 4, name: "Entrepreneurship Cell", founder: "Teacher" }
-];
+let communities = []; // Start with an empty array
 
 function showSignup() {
   document.getElementById("login-section").classList.add("hidden");
@@ -53,6 +48,12 @@ function login() {
 function loadCommunities() {
   const list = document.getElementById("community-list");
   list.innerHTML = "";
+
+  if (communities.length === 0) {
+    list.innerHTML = "<li>No communities yet. Teachers can create one!</li>";
+    return;
+  }
+
   communities.forEach(c => {
     const li = document.createElement("li");
     li.innerHTML = `${c.name} <span style="font-size:12px; color:#666;">(Founder: ${c.founder})</span> 
@@ -82,3 +83,4 @@ function addCommunity() {
     alert("Please enter a community name.");
   }
 }
+
