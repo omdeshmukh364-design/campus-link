@@ -1,119 +1,176 @@
-let user = null;
-let communities = []; // Start empty
+// 🔹 Firebase configuration
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
-function showSection(section) {
-  const hero = document.querySelector('.hero');
-  const dashboard = document.getElementById('dashboard');
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  if(section === 'home') {
-    hero.classList.remove('hidden');
-    dashboard.classList.add('hidden');
-  } else if(section === 'communities') {
-    if(!user) {
-      alert("Please login first!");
-      showLogin();
-      return;
-    }
-    hero.classList.add('hidden');
-    dashboard.classList.remove('hidden');
+// ------------------- Section Navigation -------------------
+function showSection(section){
+  document.querySelector('.hero').classList.add('hidden');
+  document.getElementById('dashboard').classList.add('hidden');
+  if(section === 'home') document.querySelector('.hero').classList.remove('hidden');
+  if(section === 'communities'){
+    const user = auth.currentUser;
+    if(!user) return alert("Please login first!");
+    document.getElementById('dashboard').classList.remove('hidden');
   }
 }
 
-// Signup/Login
-function showSignup() {
-  document.getElementById("login-section").classList.add("hidden");
-  document.getElementById("signup-section").classList.remove("hidden");
+// ------------------- Show Login / Signup -------------------
+function showSignup(){ 
+  document.getElementById("login-section").classList.add("hidden"); 
+  document.getElementById("signup-section").classList.remove("hidden"); 
 }
 
-function showLogin() {
-  document.getElementById("signup-section").classList.add("hidden");
-  document.getElementById("login-section").classList.remove("hidden");
+function showLogin(){ 
+  document.getElementById("signup-section").classList.add("hidden"); 
+  document.getElementById("login-section").classList.remove("hidden"); 
 }
 
-function signup() {
-  const role = document.getElementById("signup-role").value;
-  const name = document.getElementById("name").value;
+// ------------------- Signup -------------------
+function signup(){
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
+  const name = document.getElementById("name").value;
+  const role = document.getElementById("signup-role").value;
 
-  localStorage.setItem("user", JSON.stringify({ role, name, email, password }));
-  alert("Signup successful! Please login.");
-  showLogin();
+  auth.createUserWithEmailAndPassword(email,password)
+    .then(userCredential => {
+      const user = userCredential.user;
+      db.collection("users").doc(user.uid).set({ name, role, email });
+      alert("Signup successful!");
+      showLogin();
+    }).catch(error => alert(error.message));
 }
 
-function login() {
-  const role = document.getElementById("role").value;
+// ------------------- Login -------------------
+function login(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  if (storedUser && storedUser.email === email && storedUser.password === password && storedUser.role === role) {
-    user = storedUser;
-    document.getElementById("studentName").innerText = `${user.name} (${user.role})`;
-    document.getElementById("login-section").classList.add("hidden");
-    document.getElementById("signup-section").classList.add("hidden");
-
-    // Show logout button
-    document.getElementById("logoutBtn").classList.remove("hidden");
-
-    // Show "Add Community" only if Teacher
-    if (user.role === "teacher") {
-      document.getElementById("addCommunityCard").classList.remove("hidden");
-    }
-
-    loadCommunities();
-    showSection('home'); // Go to home after login
-  } else {
-    alert("Invalid credentials!");
-  }
+  auth.signInWithEmailAndPassword(email,password)
+    .then(userCredential => {
+      const user = userCredential.user;
+      document.getElementById("logoutBtn").classList.remove("hidden");
+      db.collection("users").doc(user.uid).get().then(doc=>{
+        const userData = doc.data();
+        document.getElementById("studentName").innerText = `${userData.name} (${userData.role})`;
+        if(userData.role==="teacher") document.getElementById("addCommunityCard").classList.remove("hidden");
+        document.getElementById("login-section").classList.add("hidden");
+        document.getElementById("signup-section").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+        loadCommunities();
+      });
+    }).catch(error => alert(error.message));
 }
 
-function logout() {
-  user = null;
-  document.getElementById("dashboard").classList.add("hidden");
-  document.querySelector('.hero').classList.remove('hidden');
-  document.getElementById("login-section").classList.remove("hidden");
-  document.getElementById("logoutBtn").classList.add("hidden");
-  document.getElementById("addCommunityCard").classList.add("hidden");
-  alert("✅ You have been logged out!");
-}
-
-// Communities functions
-function loadCommunities() {
-  const list = document.getElementById("community-list");
-  list.innerHTML = "";
-
-  if (communities.length === 0) {
-    list.innerHTML = "<li>No communities yet. Teachers can create one!</li>";
-    return;
-  }
-
-  communities.forEach(c => {
-    const li = document.createElement("li");
-    li.innerHTML = `${c.name} <span style="font-size:12px; color:#666;">(Founder: ${c.founder})</span> 
-      <button class="btn-primary" onclick="joinCommunity('${c.name}')">Join</button>`;
-    list.appendChild(li);
+// ------------------- Logout -------------------
+function logout(){
+  auth.signOut().then(()=>{
+    alert("Logged out!");
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("login-section").classList.remove("hidden");
+    document.getElementById("addCommunityCard").classList.add("hidden");
+    document.getElementById("logoutBtn").classList.add("hidden");
   });
 }
 
-function joinCommunity(name) {
-  alert(`🎉 You have joined ${name}!`);
+// ------------------- Add Community (Teacher Only) -------------------
+function addCommunity(){
+  const newCommunity = document.getElementById("newCommunity").value;
+  const user = auth.currentUser;
+  if(!user) return alert("Please login");
+  db.collection("users").doc(user.uid).get().then(doc=>{
+    const userData = doc.data();
+    if(userData.role!=="teacher") return alert("Only teachers can create communities");
+
+    db.collection("communities").add({
+      name: newCommunity,
+      founder: userData.name
+    }).then(()=>{
+      alert("Community created!");
+      document.getElementById("newCommunity").value = "";
+      loadCommunities();
+    });
+  });
 }
 
-function addCommunity() {
-  if (user.role !== "teacher") {
-    alert("❌ Only teachers can create communities.");
-    return;
-  }
+// ------------------- Load Communities -------------------
+function loadCommunities(){
+  const user = auth.currentUser;
+  if(!user) return;
 
-  const newCommunity = document.getElementById("newCommunity").value;
-  if (newCommunity.trim() !== "") {
-    const id = communities.length + 1;
-    communities.push({ id, name: newCommunity, founder: user.name });
-    document.getElementById("newCommunity").value = "";
-    loadCommunities();
-    alert(`✅ Community '${newCommunity}' created by ${user.name}!`);
-  } else {
-    alert("Please enter a community name.");
-  }
+  const list = document.getElementById("community-list");
+  const joinedList = document.getElementById("joined-community-list");
+  list.innerHTML = "";
+  joinedList.innerHTML = "";
+
+  db.collection("users").doc(user.uid).get().then(doc=>{
+    const userData = doc.data();
+    const userRole = userData.role;
+
+    db.collection("communities").get().then(snapshot=>{
+      snapshot.forEach(docC=>{
+        const c = docC.data();
+
+        // Teachers see their created communities
+        if(userRole==="teacher" && c.founder === userData.name){
+          const li = document.createElement("li");
+          li.textContent = c.name + " (Founder)";
+          list.appendChild(li);
+        }
+
+        // Students see available and joined communities
+        if(userRole==="student"){
+          db.collection("community_members")
+            .where("community_id","==",docC.id)
+            .where("user_id","==",user.uid)
+            .get().then(joinedSnap=>{
+              if(joinedSnap.empty){
+                // Not joined
+                const li = document.createElement("li");
+                li.innerHTML = `${c.name} <span style="font-size:12px; color:#666;">(Founder: ${c.founder})</span>
+                  <button class="btn-primary" onclick="joinCommunity('${docC.id}')">Join</button>`;
+                list.appendChild(li);
+              } else {
+                // Already joined
+                const li = document.createElement("li");
+                li.textContent = c.name + ` (Founder: ${c.founder})`;
+                joinedList.appendChild(li);
+              }
+            });
+        }
+      });
+    });
+  });
+}
+
+// ------------------- Join Community -------------------
+function joinCommunity(id){
+  const user = auth.currentUser;
+  if(!user) return alert("Please login");
+
+  db.collection("community_members")
+    .where("community_id","==",id)
+    .where("user_id","==",user.uid)
+    .get().then(snap=>{
+      if(!snap.empty) return alert("You have already joined this community!");
+
+      db.collection("community_members").add({
+        community_id: id,
+        user_id: user.uid
+      }).then(()=>{
+        alert("Joined community!");
+        loadCommunities();
+      });
+    });
 }
