@@ -19,7 +19,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* Allow nav to wrap on small screens */
+  flex-wrap: wrap;
 }
 
 header .logo {
@@ -76,6 +76,7 @@ header nav a:hover {
 
 .btn-accent:hover {
   background: #d32f2f;
+  transform: scale(1.05);
 }
 
 /* Cards */
@@ -120,6 +121,7 @@ input, button {
 
 .btn-primary:hover {
   background: #ef5350;
+  transform: scale(1.05);
 }
 
 /* Lists */
@@ -144,6 +146,21 @@ ul li:hover {
   color: white;
 }
 
+ul li button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: #003366;
+  color: white;
+  transition: 0.3s;
+}
+
+ul li button:hover {
+  background: #ef5350;
+}
+
 /* Footer */
 footer {
   text-align: center;
@@ -158,8 +175,6 @@ footer {
 }
 
 /* ---------------- RESPONSIVE DESIGN ---------------- */
-
-/* Tablets & smaller laptops */
 @media (max-width: 992px) {
   .hero h1 {
     font-size: 32px;
@@ -172,7 +187,6 @@ footer {
   }
 }
 
-/* Phones */
 @media (max-width: 600px) {
   header {
     flex-direction: column;
@@ -205,5 +219,10 @@ footer {
     flex-direction: column;
     gap: 8px;
     text-align: center;
+  }
+
+  ul li button {
+    width: 80%;
+    margin: 0 auto 5px auto;
   }
 }
