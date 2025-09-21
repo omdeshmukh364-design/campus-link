@@ -4,41 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Campus Link - PCU</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <!-- Header -->
-<header>
-  <div class="logo">🌐 PCU Campus Link</div>
-  <nav>
-    <a href="#" onclick="showSection('home')">Home</a>
-    <a href="#" onclick="showSection('communities')">Communities</a>
-    <a href="#" id="logoutBtn" class="hidden" onclick="logout()">Logout</a>
-  </nav>
-</header>
+  <header>
+    <div class="logo">🌐 PCU Campus Link</div>
+    <nav>
+      <a onclick="showSection('home')">Home</a>
+      <a onclick="showSection('communities')">Communities</a>
+      <a id="logoutBtn" class="hidden" onclick="logout()">Logout</a>
+    </nav>
+  </header>
 
-
-  <!-- Hero Banner -->
+  <!-- Hero -->
   <section class="hero">
     <h1>Welcome to Campus Link</h1>
     <p>The digital hub for Pimpri Chinchwad University. Connect. Collaborate. Grow.</p>
     <button class="btn-accent" onclick="showLogin()">Get Started</button>
   </section>
 
-  <!-- Login Section -->
+  <!-- Login -->
   <section id="login-section" class="card hidden">
     <h2>Login</h2>
-    <select id="role">
-      <option value="student">Student</option>
-      <option value="teacher">Teacher</option>
-    </select>
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
     <button class="btn-primary" onclick="login()">Login</button>
-    <p>Don’t have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+    <p>Don’t have an account? <a onclick="showSignup()">Sign up</a></p>
   </section>
 
-  <!-- Signup Section -->
+  <!-- Signup -->
   <section id="signup-section" class="card hidden">
     <h2>Create Account</h2>
     <select id="signup-role">
@@ -49,27 +52,33 @@
     <input type="email" id="signup-email" placeholder="Email">
     <input type="password" id="signup-password" placeholder="Password">
     <button class="btn-primary" onclick="signup()">Register</button>
-    <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    <p>Already have an account? <a onclick="showLogin()">Login</a></p>
   </section>
 
-  <!-- Dashboard Section -->
+  <!-- Dashboard -->
   <section id="dashboard" class="hidden">
     <div class="card">
       <h2>Hello, <span id="studentName"></span> 👋</h2>
       <p>Welcome back to your community hub.</p>
     </div>
 
-    <!-- Insert Community (only teachers see this) -->
+    <!-- Add Community (Teachers only) -->
     <div class="card hidden" id="addCommunityCard">
       <h3>Create a New Community</h3>
       <input type="text" id="newCommunity" placeholder="Community Name">
       <button class="btn-primary" onclick="addCommunity()">Add</button>
     </div>
 
-    <!-- Communities -->
+    <!-- All Communities -->
     <div class="card">
       <h3>Available Communities</h3>
       <ul id="community-list"></ul>
+    </div>
+
+    <!-- Joined Communities -->
+    <div class="card" id="joined-communities-card">
+      <h3>Your Joined Communities</h3>
+      <ul id="joined-community-list"></ul>
     </div>
   </section>
 
@@ -77,7 +86,7 @@
     © 2025 Pimpri Chinchwad University | Designed with ❤️ for Students & Teachers
   </footer>
 
+  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
-
