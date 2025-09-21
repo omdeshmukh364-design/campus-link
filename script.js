@@ -1,5 +1,5 @@
 let user = null;
-let communities = []; // Start with an empty array
+let communities = []; // Start empty
 
 function showSignup() {
   document.getElementById("login-section").classList.add("hidden");
@@ -32,7 +32,11 @@ function login() {
     user = storedUser;
     document.getElementById("studentName").innerText = `${user.name} (${user.role})`;
     document.getElementById("login-section").classList.add("hidden");
+    document.getElementById("signup-section").classList.add("hidden");
     document.getElementById("dashboard").classList.remove("hidden");
+
+    // Show logout button
+    document.getElementById("logoutBtn").classList.remove("hidden");
 
     // Show "Add Community" only if Teacher
     if (user.role === "teacher") {
@@ -43,6 +47,15 @@ function login() {
   } else {
     alert("Invalid credentials!");
   }
+}
+
+function logout() {
+  user = null;
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("login-section").classList.remove("hidden");
+  document.getElementById("logoutBtn").classList.add("hidden");
+  document.getElementById("addCommunityCard").classList.add("hidden");
+  alert("✅ You have been logged out!");
 }
 
 function loadCommunities() {
@@ -83,4 +96,3 @@ function addCommunity() {
     alert("Please enter a community name.");
   }
 }
-
